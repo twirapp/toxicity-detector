@@ -1,0 +1,24 @@
+[project]
+name = "toxicity-detector"
+version = "0.1.0"
+description = "Simple Multi-Language HTTP Server Text Toxicity Detector"
+authors = [{ name = "MrPandir", email = "MrPandir@users.noreply.github.com" }]
+dependencies = [
+    "transformers>=4.48.0",
+    "torch>=2.5.1",
+    "starlette>=0.45.2",
+    "uvicorn>=0.34.0",
+    "python-dotenv>=1.0.1",
+]
+requires-python = ">= 3.9"
+
+[tool.rye.scripts]
+server = "uvicorn app.server:app"
+dev-server = "uvicorn app.server:app --reload"
+
+[tool.rye]
+managed = true
+virtual = true
+universal = true
+dev-dependencies = []
+excluded-dependencies = []
