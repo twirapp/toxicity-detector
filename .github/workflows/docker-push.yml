@@ -1,0 +1,27 @@
+name: Build and push
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**"
+      - "!**/README.md"
+      - "!.github/**"
+      - .github/workflows/docker.yml
+  workflow_dispatch:
+
+jobs:
+  postgres-backup:
+    name: Build and push
+    runs-on: self-hosted
+    steps:
+      - uses: TooMuch4U/actions-clean@v2.1
+      - uses: actions/checkout@v3
+      - run: |
+          docker build -f ./Dockerfile \
+          -t twirapp/toxicity-detector:latest \
+          --cache-from type=gha,scope=twir-toxicity-detector \
+          --cache-to type=gha,mode=max,scope=twir-toxicity-detector .
+
+          docker push twirapp/toxicity-detector:latest
