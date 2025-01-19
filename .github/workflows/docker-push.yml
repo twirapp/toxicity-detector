@@ -42,6 +42,6 @@ jobs:
           push: true
           tags: |
             twirapp/toxicity-detector:latest
-            registry.twir.app/twirapp/toxicity-detector:latest
+#            registry.twir.app/twirapp/toxicity-detector:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
