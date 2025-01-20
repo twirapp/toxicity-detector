@@ -1,5 +1,8 @@
 import logging
 import re
+from functools import wraps
+from time import perf_counter
+from typing import Callable, TypeVar
 
 logger = logging.getLogger(__name__)
 
@@ -35,3 +38,16 @@ def clear_text(text: str) -> str:
         return text
 
     return remove_emoji(text)
+
+
+Result = TypeVar("Result")
+
+
+def measure_time(func: Callable[..., Result]) -> Callable[..., tuple[Result, float]]:
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = perf_counter()
+        result = func(*args, **kwargs)
+        return result, perf_counter() - start_time
+
+    return wrapper

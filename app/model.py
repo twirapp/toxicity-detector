@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from torch import Tensor
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from .utils import clear_text
+from .utils import clear_text, measure_time
 
 # Initializing logging
 logging.basicConfig(
@@ -36,9 +36,16 @@ predict_func = (
 
 
 # Logging
-def log_prediction(text: str, logits: Tensor, result: bool) -> None:
+def log_prediction(
+    text: str, logits: Tensor, result: bool, execution_time: float
+) -> None:
     logger.info(
-        "%6.3f, %6.3f | %5s | %r", logits[0, 0], logits[0, 1], str(result), text
+        "%6.3f sec | %6.3f, %6.3f | %5s | %r",
+        execution_time,
+        logits[0, 0],
+        logits[0, 1],
+        str(result),
+        text,
     )
 
 
@@ -49,12 +56,8 @@ tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path).to(device)
 
 
-# Model call
-def predict(text: str) -> bool:
-    text = clear_text(text).lower()
-    if not text:
-        return False
-
+@measure_time
+def call_model(text: str) -> Tensor:
     encoding = tokenizer.encode_plus(
         text,
         add_special_tokens=True,
@@ -67,7 +70,16 @@ def predict(text: str) -> bool:
 
     with torch.no_grad():
         outputs = model(input_ids, attention_mask=attention_mask)
+    return outputs.logits
 
-    result = predict_func(outputs.logits)
-    log_prediction(text, outputs.logits, result)
+
+def predict(text: str) -> bool:
+    text = clear_text(text).lower()
+    if not text:
+        return False
+
+    logits, execution_time = call_model(text)
+    result = predict_func(logits)
+
+    log_prediction(text, logits, result, execution_time)
     return result
