@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from torch import Tensor
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
+from .utils import clear_text
+
 # Initializing logging
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s | %(message)s", datefmt="%m-%d %H:%M:%S"
@@ -49,6 +51,10 @@ model = AutoModelForSequenceClassification.from_pretrained(model_path).to(device
 
 # Model call
 def predict(text: str) -> bool:
+    text = clear_text(text).lower()
+    if not text:
+        return False
+
     encoding = tokenizer.encode_plus(
         text,
         add_special_tokens=True,
