@@ -40,7 +40,7 @@ def log_prediction(
     text: str, logits: Tensor, result: bool, execution_time: float
 ) -> None:
     logger.info(
-        "%6.3f sec | %6.3f, %6.3f | %5s | %r",
+        "%5.3f sec | %6.3f, %6.3f | %-5s | %r",
         execution_time,
         logits[0, 0],
         logits[0, 1],
