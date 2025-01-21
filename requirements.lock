@@ -35,17 +35,17 @@ huggingface-hub==0.27.1
 idna==3.4
     # via anyio
     # via requests
-intel-openmp==2021.4.0 ; (platform_machine == 'arm64' and platform_system == 'Windows') or (platform_machine == 'x86_64' and platform_system == 'Windows')
+intel-openmp==2021.4.0 ; (platform_machine == 'aarch64' and platform_system == 'Windows') or (platform_machine == 'arm64' and platform_system == 'Windows') or (platform_machine == 'x86_64' and platform_system == 'Windows')
     # via mkl
-jinja2==3.1.3 ; platform_machine == 'arm64' or platform_machine == 'x86_64'
+jinja2==3.1.3 ; platform_machine == 'aarch64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
     # via torch
-markupsafe==3.0.2 ; platform_machine == 'arm64' or platform_machine == 'x86_64'
+markupsafe==3.0.2 ; platform_machine == 'aarch64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
     # via jinja2
-mkl==2021.4.0 ; (platform_machine == 'arm64' and platform_system == 'Windows') or (platform_machine == 'x86_64' and platform_system == 'Windows')
+mkl==2021.4.0 ; (platform_machine == 'aarch64' and platform_system == 'Windows') or (platform_machine == 'arm64' and platform_system == 'Windows') or (platform_machine == 'x86_64' and platform_system == 'Windows')
     # via torch
-mpmath==1.3.0 ; platform_machine == 'arm64' or platform_machine == 'x86_64'
+mpmath==1.3.0 ; platform_machine == 'aarch64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
     # via sympy
-networkx==3.2.1 ; platform_machine == 'arm64' or platform_machine == 'x86_64'
+networkx==3.2.1 ; platform_machine == 'aarch64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
     # via torch
 numpy==1.26.3
     # via transformers
@@ -66,13 +66,13 @@ safetensors==0.5.2
 sniffio==1.3.1
     # via anyio
 starlette==0.45.2
-sympy==1.13.1 ; platform_machine == 'arm64' or platform_machine == 'x86_64'
+sympy==1.13.1 ; platform_machine == 'aarch64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
     # via torch
-tbb==2021.11.0 ; (platform_machine == 'arm64' and platform_system == 'Windows') or (platform_machine == 'x86_64' and platform_system == 'Windows')
+tbb==2021.11.0 ; (platform_machine == 'aarch64' and platform_system == 'Windows') or (platform_machine == 'arm64' and platform_system == 'Windows') or (platform_machine == 'x86_64' and platform_system == 'Windows')
     # via mkl
 tokenizers==0.21.0
     # via transformers
-torch==2.3.1 ; platform_machine == 'arm64'
+torch==2.3.1 ; platform_machine == 'aarch64' or platform_machine == 'arm64'
 torch @ https://download.pytorch.org/whl/cpu/torch-2.3.1%2Bcpu-cp311-cp311-linux_x86_64.whl ; platform_machine == 'x86_64'
 tqdm==4.66.5
     # via huggingface-hub
