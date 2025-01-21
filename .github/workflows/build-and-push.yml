@@ -6,9 +6,9 @@ on:
       - main
     paths:
       - "**"
-      - "!**/README.md"
-      - "!.github/**"
-      - .github/workflows/docker.yml
+      - "!**.md"
+      - "!.github"
+      - .github/workflows/build-and-push.yml
   workflow_dispatch:
 
 jobs:
