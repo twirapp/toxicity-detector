@@ -6,6 +6,7 @@ on:
     paths:
       - README.md
       - .github/workflows/dockerhub-description.yml
+  workflow_dispatch:
 
 jobs:
   docker-description:
@@ -22,5 +23,4 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
           repository: twirapp/toxicity-detector
           short-description: ${{ github.event.repository.description }}
-          readme-filepath: README.md
           enable-url-completion: true
