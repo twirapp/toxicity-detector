@@ -110,14 +110,14 @@ docker run --rm -p 8000:8000 --name toxicity-detector twirapp/toxicity-detector
 ## Docker Compose
 Create a `docker-compose.yml` file with the following content:
 ```yml
-version: '3'
 services:
   toxicity-detector:
     image: twirapp/toxicity-detector
     ports:
       - "8000:8000"
-    # environment:
-    #   TOXICITY_THRESHOLD: 0
+    environment:
+      TOXICITY_THRESHOLD: 0
+      # WEB_CONCURRENCY: 1 # uvicorn workers count
 ```
 
 Then run:
@@ -138,6 +138,7 @@ curl -G 'http://localhost:8000/predict' --data-urlencode 'text=test text'
 # Environment variables
 - `MODEL_PATH` - path to the directory where the model files are stored. (which you should have downloaded) Default: `./model`
 - `TOXICITY_THRESHOLD` - the level below which the text will be considered toxic. Default: `0` - the argmax function is used. This is a float value, example: `-0.2`, `-0.05`, `1`.
+- `WEB_CONCURRENCY` - Number of worker processes. Defaults to the value of this environment variable if set, otherwise 1. Note: Not compatible with `--reload` option.
 
 # Explanation of the log output
 `01-24 19:01:34 | 0.568 sec |  9.583, -9.616 | False | 'text'`
