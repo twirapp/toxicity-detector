@@ -14,7 +14,7 @@ The model supports multilingualism (55 languages). It was trained on the [toxi-t
 
 ## Local Run
 > [!IMPORTANT]
-> Minimum requirement [python 3.9](https://www.python.org/downloads/).
+> Minimum requirement [Python 3.9](https://www.python.org/downloads).
 >
 > This project uses [Rye](https://rye.astral.sh) for dependency management, but it is also possible to install dependencies via pip. This is not necessary.
 
