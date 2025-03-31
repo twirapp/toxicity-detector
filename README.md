@@ -10,7 +10,7 @@ The model supports multilingualism (55 languages). It was trained on the [toxi-t
 > The project is designed to run on CPU, if you want to use GPU you will have to replace torch dependency in `pyproject.toml`.
 
 > [!TIP]
-> Recommendation for choosing VPS: the model works much faster on Apple processors.
+> It works well on hetzner shared AMD server with 4cpu, 8gb ram, handles messages under 100ms. Maybe less resources needed, check this out yourself.
 
 ## Local Run
 > [!IMPORTANT]
