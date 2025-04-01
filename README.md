@@ -17,7 +17,7 @@ The model supports multilingualism (55 languages). It was trained on the [toxi-t
 >
 > Minimum requirement [Python 3.9](https://www.python.org/downloads).
 >
-> This project uses [Rye](https://rye.astral.sh) for dependency management, but it is also possible to install dependencies via pip. This is not necessary.
+> This project uses [uv](https://astral.sh/uv) for dependency management, but it is also possible to install dependencies via pip. This is not necessary.
 
 1. Clone the repository
 
@@ -40,7 +40,7 @@ The model supports multilingualism (55 languages). It was trained on the [toxi-t
 
     This will automatically create the virtual environment in the `.venv` directory and install the required dependencies
     ```bash
-    rye sync
+    uv sync
     ```
     <details>
     <summary>(not recommended) alternative install via pip</summary>
@@ -59,25 +59,12 @@ The model supports multilingualism (55 languages). It was trained on the [toxi-t
 
     With autoload:
     ```bash
-    rye run dev-server
-    ```
-    Without autoload:
-    ```bash
-    rye run server
-    ```
-    <details>
-    <summary>Without Rye</summary>
-
-    With autoload:
-    ```bash
     uvicorn app.server:app --reload
     ```
-
     Without autoload:
     ```bash
     uvicorn app.server:app
     ```
-    </details>
 
 ## Docker Hub
 You can pull the pre-built Docker image from Docker Hub:
