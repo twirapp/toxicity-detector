@@ -6,7 +6,7 @@ services:
       - "8000:8000"
     develop:
       watch:
-        - action: sync+restart
+        - action: rebuild
           path: ./app
           target: /app
 
