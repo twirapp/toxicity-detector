@@ -25,6 +25,7 @@ The model supports multilingualism (55 languages). It was trained on the [toxi-t
     git clone https://github.com/twirapp/toxicity-detector.git && cd toxicity-detector
     ```
 2. Download model
+
     Run this in the project root directory:
     ```bash
     mkdir -p ./model && cd ./model && \
@@ -42,19 +43,6 @@ The model supports multilingualism (55 languages). It was trained on the [toxi-t
     ```bash
     uv sync
     ```
-    <details>
-    <summary>(not recommended) alternative install via pip</summary>
-    Create a virtual environment and activate:
-
-    ```bash
-    python3 -m venv .venv && source .venv/bin/activate
-    ```
-    Install only the required dependencies:
-
-    ```bash
-    pip3 install --no-deps -r requirements.lock
-    ```
-    </details>
 4. Run the server
 
     With autoload:
