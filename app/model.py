@@ -1,5 +1,5 @@
 import logging
-from os import environ
+from os import cpu_count, environ
 
 import torch
 from dotenv import load_dotenv
@@ -91,6 +91,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Log PyTorch backends and devices information
 logger.info("CUDA available: %s", torch.cuda.is_available())
 logger.info("Current device: %s", device)
+cpu_cores = cpu_count()
+logger.info(
+    "Number of CPU cores: %s", cpu_cores if cpu_cores is not None else "Unknown"
+)
 if torch.cuda.is_available():
     logger.info("CUDA version: %s", torch.version.cuda)  # type: ignore[attr-defined]
     logger.info("Current CUDA device: %s", torch.cuda.current_device())
