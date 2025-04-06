@@ -1,7 +1,13 @@
 import asyncio
 import time
 
-from prometheus_client import Counter, Gauge, Summary, generate_latest
+from prometheus_client import (
+    Counter,
+    Gauge,
+    Summary,
+    disable_created_metrics,
+    generate_latest,
+)
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
@@ -12,6 +18,8 @@ from .model import metrics_prefix
 from .model import predict as call_model
 
 # Initialize Prometheus metrics
+disable_created_metrics()
+
 REQUEST_COUNT = Counter(
     f"{metrics_prefix}_http_requests",
     "Total number of HTTP requests",
