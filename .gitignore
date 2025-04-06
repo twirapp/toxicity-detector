@@ -1,4 +1,4 @@
-# python generated files
+# Python generated files
 __pycache__/
 *.py[oc]
 build/
@@ -6,12 +6,15 @@ dist/
 wheels/
 *.egg-info
 
-# venv
+# Virtual environment
 .venv
-
-.DS_Store
 .python-version
+
+# System files
+.DS_Store
+
+# IDE files
+.idea
 
 model/*
 !.gitkeep
-.idea
