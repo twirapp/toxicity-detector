@@ -88,6 +88,34 @@ def error_handler(func):
 # Model initialization
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+# Log PyTorch backends and devices information
+logger.info("CUDA available: %s", torch.cuda.is_available())
+logger.info("Current device: %s", device)
+if torch.cuda.is_available():
+    logger.info("CUDA version: %s", torch.version.cuda)  # type: ignore[attr-defined]
+    logger.info("Current CUDA device: %s", torch.cuda.current_device())
+    logger.info("CUDA device name: %s", torch.cuda.get_device_name(0))
+    logger.info("Number of CUDA devices: %d", torch.cuda.device_count())
+
+# Check and log additional backends
+logger.info(
+    "MPS (Metal Performance Shaders) available: %s",
+    hasattr(torch.backends, "mps") and torch.backends.mps.is_available(),
+)
+logger.info(
+    "CUDNN available: %s",
+    hasattr(torch.backends, "cudnn") and torch.backends.cudnn.is_available(),
+)
+logger.info(
+    "MKLDNN available: %s",
+    hasattr(torch.backends, "mkldnn") and torch.backends.mkldnn.is_available(),
+)
+logger.info(
+    "OpenMP available: %s",
+    hasattr(torch.backends, "openmp") and torch.backends.openmp.is_available(),
+)
+
+
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path).to(device)
 
