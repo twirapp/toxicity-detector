@@ -1,0 +1,5 @@
+scrape_configs:
+  - job_name: "toxicity-detector"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["toxicity-detector:8000"]

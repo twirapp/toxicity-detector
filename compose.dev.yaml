@@ -1,0 +1,44 @@
+services:
+  toxicity-detector:
+    image: twirapp/toxicity-detector
+    build: .
+    ports:
+      - "8000:8000"
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./app
+          target: /app
+
+        - action: rebuild
+          path: pyproject.toml
+        - action: rebuild
+          path: ./Dockerfile
+        - action: rebuild
+          path: compose.dev.yaml
+    environment:
+      TOXICITY_THRESHOLD: 0
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    develop:
+      watch:
+        - action: sync
+          path: prometheus.yml
+          target: /etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+volumes:
+  grafana-data:

@@ -94,22 +94,12 @@ docker run --rm -p 8000:8000 --name toxicity-detector twirapp/toxicity-detector
   docker run --rm -p 8000:8000 --name toxicity-detector toxicity-detector
   ```
 
-## Docker Compose
-Create a `docker-compose.yml` file with the following content:
-```yml
-services:
-  toxicity-detector:
-    image: twirapp/toxicity-detector
-    ports:
-      - "8000:8000"
-    environment:
-      TOXICITY_THRESHOLD: 0
-      # WEB_CONCURRENCY: 1 # uvicorn workers count
-```
+## Docker Compose with Development Setup
+For a full development environment including Prometheus and Grafana for monitoring, use the provided `compose.dev.yaml` file. This setup includes automatic reloading for development and metrics visualization.
 
-Then run:
+Run the following command to start all services:
 ```bash
-docker compose up -d
+docker compose -f compose.dev.yaml up --build
 ```
 
 # Usage
@@ -126,6 +116,24 @@ curl -G 'http://localhost:8000/predict' --data-urlencode 'text=test text'
 - `MODEL_PATH` - path to the directory where the model files are stored. (which you should have downloaded) Default: `./model`
 - `TOXICITY_THRESHOLD` - the level below which the text will be considered toxic. Default: `0` - the argmax function is used. This is a float value, example: `-0.2`, `-0.05`, `1`.
 - `WEB_CONCURRENCY` - Number of worker processes. Defaults to the value of this environment variable if set, otherwise 1. Note: Not compatible with `--reload` option.
+- `METRICS_PREFIX` - Prefix for Prometheus metrics names. Default: `toxicity_detector`. Allows customization of metric names to avoid conflicts in a shared Prometheus setup.
+
+# Prometheus Metrics
+This project exposes several Prometheus metrics for monitoring the toxicity detector's performance and behavior. All metric names are prefixed with the value of the `METRICS_PREFIX` environment variable (default: `toxicity_detector`). Below is a list of available metrics and what they collect:
+
+- **`toxicity_detector_model_errors_total`** (Counter): Total number of errors encountered during model execution. Useful for tracking model reliability.
+- **`toxicity_detector_model_execution_duration_seconds`** (Summary): Duration in seconds of model execution for each prediction. Provides insights into model performance and latency.
+- **`toxicity_detector_logits_distribution`** (Histogram): Distribution of the first logit value (toxicity score) returned by the model, with buckets ranging from -10 to 10 in steps of 0.5. Helps analyze the range and frequency of toxicity scores.
+- **`toxicity_detector_http_requests`** (Counter): Total number of HTTP requests, labeled by `endpoint` (e.g., `/` or `/predict`) and `result` (`toxic` or `non_toxic`). Tracks request volume and toxicity detection outcomes.
+- **`toxicity_detector_http_request_duration_seconds`** (Summary): Duration in seconds of HTTP request handling, labeled by `endpoint`. Monitors API response times.
+- **`toxicity_detector_active_http_requests`** (Gauge): Current number of active HTTP requests being processed. Useful for observing server load.
+
+Metrics are available at the `/metrics` endpoint (e.g., `http://localhost:8000/metrics`).
+
+# Grafana Dashboard
+A sample Grafana dashboard configuration is provided for visualizing the Prometheus metrics. You can download it [here](./grafana-dashboard.json). Import this JSON file into your Grafana instance to monitor the toxicity detector's performance.
+
+![Grafana Dashboard Screenshot](./.github/grafana-dashboard-screenshot.png)
 
 # Explanation of the log output
 `01-24 19:01:34 | 0.568 sec |  9.583, -9.616 | False | 'text'`
