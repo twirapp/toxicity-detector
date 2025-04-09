@@ -11,8 +11,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from .utils import clear_text, measure_time
 
-loop = asyncio.get_running_loop()
-loop.set_default_executor(ThreadPoolExecutor())
+cpu_cores = cpu_count()
 
 # Environment
 load_dotenv()
@@ -20,7 +19,13 @@ load_dotenv()
 model_path = environ.get("MODEL_PATH", "./model")
 threshold = float(environ.get("TOXICITY_THRESHOLD", 0))
 metrics_prefix = environ.get("METRICS_PREFIX", "toxicity_detector")
+num_threads = int(environ.get("TORCH_THREADS", cpu_cores or 1))
 
+# Configuring Thread Settings
+torch.set_num_threads(num_threads)
+
+loop = asyncio.get_running_loop()
+loop.set_default_executor(ThreadPoolExecutor())
 
 # Initialize Prometheus metrics
 MODEL_ERRORS = Counter(
@@ -96,7 +101,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Log PyTorch backends and devices information
 logger.info("CUDA available: %s", torch.cuda.is_available())
 logger.info("Current device: %s", device)
-cpu_cores = cpu_count()
 logger.info(
     "Number of CPU cores: %s", cpu_cores if cpu_cores is not None else "Unknown"
 )

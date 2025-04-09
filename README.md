@@ -105,6 +105,7 @@ curl -G 'http://localhost:8000/predict' --data-urlencode 'text=test text'
 - `TOXICITY_THRESHOLD` - the level below which the text will be considered toxic. Default: `0` - the argmax function is used. This is a float value, example: `-0.2`, `-0.05`, `1`.
 - `WEB_CONCURRENCY` - Number of worker processes. Defaults to the value of this environment variable if set, otherwise 1. Note: Not compatible with `--reload` option.
 - `METRICS_PREFIX` - Prefix for Prometheus metrics names. Default: `toxicity_detector`. Allows customization of metric names to avoid conflicts in a shared Prometheus setup.
+- `TORCH_THREADS` - Number of threads to use for PyTorch operations. Defaults to the value of this environment variable if set, otherwise the number of CPU cores.
 
 # Prometheus Metrics
 This project exposes several Prometheus metrics for monitoring the toxicity detector's performance and behavior. All metric names are prefixed with the value of the `METRICS_PREFIX` environment variable (default: `toxicity_detector`). Below is a list of available metrics and what they collect:
