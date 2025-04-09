@@ -1,4 +1,6 @@
+import asyncio
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from os import cpu_count, environ
 
 import torch
@@ -8,6 +10,9 @@ from torch import Tensor
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from .utils import clear_text, measure_time
+
+loop = asyncio.get_running_loop()
+loop.set_default_executor(ThreadPoolExecutor())
 
 # Environment
 load_dotenv()
@@ -142,7 +147,7 @@ def call_model(text: str) -> Tensor:
     return outputs.logits
 
 
-def predict(text: str) -> bool:
+def sync_predict(text: str) -> bool:
     text = clear_text(text).lower()
     if not text:
         return False
@@ -157,3 +162,7 @@ def predict(text: str) -> bool:
 
     log_prediction(text, logits, result, execution_time)
     return result
+
+
+async def async_predict(text: str) -> bool:
+    return await loop.run_in_executor(None, sync_predict, text)
