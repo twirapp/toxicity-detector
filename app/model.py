@@ -130,7 +130,9 @@ logger.info(
 
 
 tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSequenceClassification.from_pretrained(model_path).to(device)
+model = AutoModelForSequenceClassification.from_pretrained(model_path).to(
+    device, non_blocking=True
+)
 
 
 @measure_time
