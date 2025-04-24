@@ -1,39 +1,13 @@
 import time
 
-from prometheus_client import (
-    Counter,
-    Gauge,
-    Summary,
-    disable_created_metrics,
-    generate_latest,
-)
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse, Response
 from starlette.routing import Route, Router
 
+from .metrics import *
 from .model import async_predict as model_predict
-from .model import metrics_prefix
-
-# Initialize Prometheus metrics
-disable_created_metrics()
-
-REQUEST_COUNT = Counter(
-    f"{metrics_prefix}_http_requests",
-    "Total number of HTTP requests",
-    ["endpoint", "result"],
-)
-
-REQUEST_DURATION = Summary(
-    f"{metrics_prefix}_http_request_duration_seconds",
-    "HTTP request duration in seconds",
-    ["endpoint"],
-)
-
-ACTIVE_REQUESTS = Gauge(
-    f"{metrics_prefix}_active_http_requests", "Current number of active HTTP requests"
-)
 
 
 async def predict(request: Request):

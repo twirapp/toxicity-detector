@@ -1,38 +1,17 @@
 import asyncio
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from os import cpu_count, environ
 
 import torch
-from prometheus_client import Counter, Histogram, Summary
 from torch import Tensor
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from .config import cpu_count, metrics_prefix, model_path, threshold
+from .config import cpu_count, model_path, threshold
+from .metrics import *
 from .utils import clear_text, measure_time
 
 loop = asyncio.get_running_loop()
 loop.set_default_executor(ThreadPoolExecutor())
-
-# Initialize Prometheus metrics
-MODEL_ERRORS = Counter(
-    f"{metrics_prefix}_model_errors_total", "Total number of model errors"
-)
-
-MODEL_DURATION = Summary(
-    f"{metrics_prefix}_model_execution_duration_seconds",
-    "Model execution duration in seconds",
-)
-
-# Define buckets for logits distribution ranging from -10 to 10 with a step of 0.5
-# 41 buckets to cover -10 to 10 inclusive
-logits_buckets = [round(-10.0 + i * 0.5, 1) for i in range(41)]
-
-LOGITS_DISTRIBUTION = Histogram(
-    f"{metrics_prefix}_logits_distribution",
-    "Distribution of the first logit value",
-    buckets=logits_buckets,
-)
 
 # Initializing logging
 logging.basicConfig(
