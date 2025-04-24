@@ -106,6 +106,7 @@ curl -G 'http://localhost:8000/predict' --data-urlencode 'text=test text'
 - `WEB_CONCURRENCY` - Number of worker processes. Defaults to the value of this environment variable if set, otherwise 1. Note: Not compatible with `--reload` option.
 - `METRICS_PREFIX` - Prefix for Prometheus metrics names. Default: `toxicity_detector`. Allows customization of metric names to avoid conflicts in a shared Prometheus setup.
 - `TORCH_THREADS` - Number of threads to use for PyTorch operations. Defaults to the value of this environment variable if set, otherwise the number of CPU cores.
+- `DEVICE` - Device to use for PyTorch operations. By default, it is selected from the available ones in the following order: `mps`, `cuda` ([requires installation of pytorch with cuda support](https://pytorch.org/get-started/locally/)), `cpu`.
 
 # Prometheus Metrics
 This project exposes several Prometheus metrics for monitoring the toxicity detector's performance and behavior. All metric names are prefixed with the value of the `METRICS_PREFIX` environment variable (default: `toxicity_detector`). Below is a list of available metrics and what they collect:

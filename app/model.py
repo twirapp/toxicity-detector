@@ -5,7 +5,7 @@ import torch
 from torch import Tensor
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from .config import model_path, threshold
+from .config import device, model_path, threshold
 from .logger import log_prediction, log_pytorch_info, logger
 from .metrics import *
 from .utils import clear_text, measure_time
@@ -42,7 +42,9 @@ def error_handler(func):
 
 
 # Model initialization
-if torch.backends.mps.is_available():
+if device:
+    device = torch.device(device)
+elif torch.backends.mps.is_available():
     device = torch.device("mps")
 elif torch.cuda.is_available():
     device = torch.device("cuda")
