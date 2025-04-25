@@ -6,8 +6,8 @@ from starlette.requests import Request
 from starlette.responses import PlainTextResponse, Response
 from starlette.routing import Route, Router
 
+from . import model
 from .metrics import *
-from .model import async_predict as model_predict
 
 
 async def predict(request: Request):
@@ -17,7 +17,7 @@ async def predict(request: Request):
 
     try:
         text = request.query_params.get("text")
-        result = await model_predict(text) if text else False
+        result = await model.async_predict(text) if text else False
 
         label = "toxic" if result else "non_toxic"
         REQUEST_COUNT.labels(endpoint=endpoint, result=label).inc()
