@@ -28,6 +28,10 @@ def remove_emoji(text: str) -> str:
         return text
 
 
+def strip_quotes(text: str) -> str:
+    return text.strip(" \"'")
+
+
 def clear_text(text: str) -> str:
     if not isinstance(text, str):
         logger.warning(
@@ -37,7 +41,7 @@ def clear_text(text: str) -> str:
         )
         return text
 
-    return remove_emoji(text)
+    return remove_emoji(strip_quotes(text))
 
 
 Result = TypeVar("Result")
