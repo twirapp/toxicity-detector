@@ -48,11 +48,13 @@ def log_pytorch_info(device: torch.device):
 def log_prediction(
     text: str, logits: torch.Tensor, result: bool, execution_time: float
 ):
+    confidence = abs(logits[0, 0] - logits[0, 1]).item()
     logger.info(
-        "%5.3f sec | %6.3f, %6.3f | %-5s | %r",
+        "%5.3f sec | %6.3f, %6.3f | %6.3f | %-5s | %r",
         execution_time,
         logits[0, 0],
         logits[0, 1],
+        confidence,
         str(result),
         text,
     )

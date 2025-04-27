@@ -126,9 +126,10 @@ A sample Grafana dashboard configuration is provided for visualizing the Prometh
 ![Grafana Dashboard Screenshot](./.github/grafana-dashboard-screenshot.png)
 
 # Explanation of the log output
-`01-24 19:01:34 | 0.568 sec |  9.583, -9.616 | False | 'text'`
-1. `01-24 19:01:34` - date and time: month, day of the month, time of message display.
-2. `0.568 sec` - execution time spent on the model call.
-3. ` 9.583, -9.616` - returned value from the model. The first for how much toxic text, the second number the opposite of the first. When specifying `TOXICITY_THRESHOLD` you need to look at the first number. The more negative the first value, the more toxic the text.
-4. `False` - prediction result based on `TOXICITY_THRESHOLD` (if set) or the result of the argmax function.
-5. `'text'` - the text that was passed to the model. After clearing emoji and converting to lowercase.
+`04-27 13:55:54 | 0.445 sec |  9.664, -9.688 | 19.352 | False | 'text'`
+1. `04-27 13:55:54` - date and time: month, day of the month, time of message display.
+2. `0.445 sec` - execution time spent on the model call.
+3. ` 9.664, -9.688` - returned value from the model. The first for how much toxic text, the second number the opposite of the first. When specifying `TOXICITY_THRESHOLD` you need to look at the first number. The more negative the first value, the more toxic the text.
+4. `19.352` - the confidence score of the prediction.
+5. `False` - prediction result based on `TOXICITY_THRESHOLD` (if set) or the result of the argmax function.
+6. `'text'` - the text that was passed to the model. After clearing emoji and converting to lowercase.
