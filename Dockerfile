@@ -20,7 +20,7 @@ LABEL org.opencontainers.image.vendor="TwirApp"
 # This is necessary for python to understand where to look for libraries
 ENV PYTHONPATH="/app/.venv/lib/python3.11/site-packages/:${PYTHONPATH:-}"
 USER nonroot
-ADD --chmod=004 https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/config.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/pytorch_model.bin https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/special_tokens_map.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/tokenizer.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/tokenizer_config.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/vocab.txt model/
+ADD --chmod=005 https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/config.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/pytorch_model.bin https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/special_tokens_map.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/tokenizer.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/tokenizer_config.json https://huggingface.co/FredZhang7/one-for-all-toxicity-v3/resolve/main/vocab.txt model/
 COPY --from=dependencies-installer /app/.venv .venv
 COPY ./app app
 CMD ["/app/.venv/bin/uvicorn", "--host", "0.0.0.0", "app.server:app"]
